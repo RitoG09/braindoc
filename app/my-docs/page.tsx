@@ -9,11 +9,11 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 type Props = {
-  params: { chatId: number };
+  params: Promise<{ chatId: string }>;
 };
 
 const MyDoc = async ({ params }: Props) => {
-  const { chatId } = params;
+  const { chatId } = await params;
   const { userId } = await auth();
   if (!userId) {
     return redirect("/sign-in");
@@ -39,7 +39,7 @@ const MyDoc = async ({ params }: Props) => {
             <span className="text-sm">Back to Dashboard</span>
           </Link>
         </div>
-        <AllDocBar chats={allChats} chatId={chatId} />
+        <AllDocBar chats={allChats} chatId={parseInt(chatId)} />
       </div>
     </div>
   );
