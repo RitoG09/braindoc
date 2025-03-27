@@ -7,14 +7,14 @@ import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import React from "react";
 
-interface Props {
+type PageProps = {
   params: {
     chatId: string;
   };
   searchParams: { [key: string]: string | string[] | undefined };
-}
+};
 
-const Chatpage = async ({ params }: Props) => {
+export default async function Chatpage({ params }: PageProps) {
   const chatId = parseInt(params.chatId);
   const { userId } = await auth();
   if (!userId) {
@@ -43,6 +43,4 @@ const Chatpage = async ({ params }: Props) => {
       </div>
     </div>
   );
-};
-
-export default Chatpage;
+}
