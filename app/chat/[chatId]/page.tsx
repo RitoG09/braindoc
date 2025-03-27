@@ -9,12 +9,13 @@ import React from "react";
 
 interface Props {
   params: {
-    chatId: number;
+    chatId: string;
   };
+  searchParams: { [key: string]: string | string[] | undefined };
 }
 
 const Chatpage = async ({ params }: Props) => {
-  const { chatId } = params;
+  const chatId = parseInt(params.chatId);
   const { userId } = await auth();
   if (!userId) {
     return redirect("/sign-in");
