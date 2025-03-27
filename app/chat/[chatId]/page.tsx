@@ -8,17 +8,14 @@ import { redirect } from "next/navigation";
 import React from "react";
 
 // Define the type for props
-interface ChatPageProps {
-  params: { chatId: any };
-}
+type Props = {
+  params: {
+    chatId: string;
+  };
+};
 
 // Next.js expects a default exported function
-export default async function Chatpage({ params }: ChatPageProps) {
-  // Ensure params is correctly parsed
-  if (!params?.chatId) return redirect("/");
-
-  const parsedChatId = parseInt(params.chatId, 10);
-
+const Chatpage = async ({ params: { chatId } }: Props) => {
   // Check authentication
   const authData = await auth(); // auth() returns an object, so extract userId properly
   const userId = authData?.userId;
@@ -28,11 +25,11 @@ export default async function Chatpage({ params }: ChatPageProps) {
   const _chats = await db.select().from(chats).where(eq(chats.userId, userId));
 
   // Ensure chat exists and belongs to user
-  if (!_chats || !_chats.some((chat) => chat.id === parsedChatId)) {
+  if (!_chats || !_chats.some((chat) => chat.id === parseInt(chatId))) {
     return redirect("/");
   }
 
-  const currentChat = _chats.find((chat) => chat.id === parsedChatId);
+  const currentChat = _chats.find((chat) => chat.id === parseInt(chatId));
 
   return (
     <div className="flex w-full max-h-screen">
@@ -43,8 +40,10 @@ export default async function Chatpage({ params }: ChatPageProps) {
 
       {/* Chat Component */}
       <div className="flex-1 p-4">
-        <ChatComponent chatId={parsedChatId} />
+        <ChatComponent chatId={parseInt(chatId)} />
       </div>
     </div>
   );
-}
+};
+
+export default Chatpage;
