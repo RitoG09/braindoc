@@ -9,9 +9,8 @@ import React from "react";
 
 interface Props {
   params: {
-    chatId: string;
+    chatId: number;
   };
-  searchParams: { [key: string]: string | string[] | undefined };
 }
 
 const Chatpage = async ({ params }: Props) => {
@@ -25,11 +24,11 @@ const Chatpage = async ({ params }: Props) => {
   if (!_chats) {
     return redirect("/");
   }
-  if (!_chats.find((chat) => chat.id === parseInt(chatId))) {
+  if (!_chats.find((chat) => chat.id === chatId)) {
     return redirect("/");
   }
 
-  const currentChat = _chats.find((chat) => chat.id === parseInt(chatId));
+  const currentChat = _chats.find((chat) => chat.id === chatId);
 
   return (
     <div className="flex w-full max-h-screen ">
@@ -39,7 +38,7 @@ const Chatpage = async ({ params }: Props) => {
       </div>
       {/*chatting with pdf */}
       <div className="flex-1 p-4">
-        <ChatComponent chatId={parseInt(chatId)} />
+        <ChatComponent chatId={chatId} />
       </div>
     </div>
   );
