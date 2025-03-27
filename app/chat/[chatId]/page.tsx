@@ -9,7 +9,7 @@ import React from "react";
 
 // Define the type for props
 interface ChatPageProps {
-  params: { chatId: string };
+  params: { chatId: any };
 }
 
 // Next.js expects a default exported function
