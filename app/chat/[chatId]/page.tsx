@@ -9,13 +9,11 @@ import React from "react";
 
 // Define the type for props
 type Props = {
-  params: {
-    chatId: string;
-  };
+  params: Promise<{ chatId: string }>;
 };
-
 // Next.js expects a default exported function
-const Chatpage = async ({ params: { chatId } }: Props) => {
+const Chatpage = async ({ params }: Props) => {
+  const { chatId } = await params;
   // Check authentication
   const authData = await auth(); // auth() returns an object, so extract userId properly
   const userId = authData?.userId;
