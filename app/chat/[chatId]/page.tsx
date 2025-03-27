@@ -1,6 +1,4 @@
 import ChatComponent from "@/components/ChatComponent";
-import ChatSideBar from "@/components/AllDocBar";
-import Header from "@/components/Header";
 import PDFviewer from "@/components/PDFViewer";
 import { db } from "@/lib/db";
 import { chats } from "@/lib/db/schema";

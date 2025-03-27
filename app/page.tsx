@@ -6,8 +6,6 @@ import {
   MonitorSmartphoneIcon,
   ZapIcon,
   ServerCogIcon,
-  BookOpenIcon,
-  SearchIcon,
   Brain,
   InstagramIcon,
   Github,
@@ -16,7 +14,6 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import img from "@/public/photo.png";
-import axios from "axios";
 import {
   SignInButton,
   SignUpButton,

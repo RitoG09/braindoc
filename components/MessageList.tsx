@@ -1,7 +1,6 @@
 import React from "react";
 import { Message } from "ai";
 import { cn } from "@/lib/utils";
-import { Loader2 } from "lucide-react";
 
 type Props = {
   // isloading: boolean;

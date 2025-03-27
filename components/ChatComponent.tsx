@@ -14,7 +14,7 @@ type Mode = "chat" | "voice" | "video";
 type Props = { chatId: number };
 
 const ChatComponent = ({ chatId }: Props) => {
-  const { data, isLoading, refetch } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ["chat", chatId],
     queryFn: async () => {
       const res = await axios.post<Message[]>("/api/get-messages", { chatId });
@@ -75,7 +75,9 @@ const ChatComponent = ({ chatId }: Props) => {
     >
       {/* Header */}
       <div className="p-6 border-b border-gray-100">
-        <h2 className="text-lg font-medium text-gray-800">Interaction with Doc</h2>
+        <h2 className="text-lg font-medium text-gray-800">
+          Interaction with Doc
+        </h2>
       </div>
 
       {/* Chat Area */}

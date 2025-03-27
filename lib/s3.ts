@@ -1,5 +1,4 @@
 import AWS from "aws-sdk";
-import { Key } from "lucide-react";
 
 export async function uploadToS3(file: File) {
   try {
@@ -34,7 +33,7 @@ export async function uploadToS3(file: File) {
       })
       .promise();
 
-    await upload.then((data) => {
+    await upload.then(() => {
       console.log("successfully uploaded to s3!", file_key);
     });
 
@@ -42,10 +41,12 @@ export async function uploadToS3(file: File) {
       file_key,
       file_name: file.name,
     });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export function getS3Url(file_key: string) {
   const url = `https://${process.env.NEXT_PUBLIC_S3_BUCKET_NAME}.s3.us-east-1.amazonaws.com/${file_key}`;
   return url;
-} 
+}

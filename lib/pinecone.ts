@@ -8,7 +8,6 @@ import {
 import { getEmbeddings } from "./embeddings";
 import md5 from "md5";
 import { convertToAscii } from "./utils";
-import { hash } from "crypto";
 
 if (!process.env.PINECONE_API_KEY) {
   throw new Error("PINECONE_API_KEY is not set");
@@ -123,7 +122,7 @@ export const truncateStringByBytes = (str: string, bytes: number) => {
 };
 
 async function prepareDocument(page: PDFPage) {
-  let { pageContent, metadata } = page;
+  const { pageContent, metadata } = page;
   const textSplitter = new RecursiveCharacterTextSplitter({
     chunkSize: 1000,
     chunkOverlap: 200,

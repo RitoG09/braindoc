@@ -125,7 +125,7 @@ export async function POST(req: Request) {
     //   },
     // });
   } catch (error) {
-    return new Response("Error occurred", { status: 500 });
+    return new Response(`Error occurred: ${error}`, { status: 500 });
   }
 }
 

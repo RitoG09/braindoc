@@ -1,12 +1,10 @@
 "use client";
 
-import { chats, DrizzleChat } from "@/lib/db/schema";
+import { DrizzleChat } from "@/lib/db/schema";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { FileText, Clock, Trash2, PlusCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { db } from "@/lib/db";
-import { eq } from "drizzle-orm";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
@@ -23,7 +21,7 @@ const AllDocBar = ({ chats, chatId }: Props) => {
 
   const handleDelete = async (e: React.MouseEvent, chatId: number) => {
     e.preventDefault();
-    e.stopPropagation(); 
+    e.stopPropagation();
     setIsDeleting(chatId);
 
     try {
@@ -32,7 +30,7 @@ const AllDocBar = ({ chats, chatId }: Props) => {
       });
 
       toast.success("Document deleted successfully");
-      router.refresh(); 
+      router.refresh();
     } catch (error) {
       console.error("Error deleting chat:", error);
       toast.error("Failed to delete document");
