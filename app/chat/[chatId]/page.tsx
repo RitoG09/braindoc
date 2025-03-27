@@ -8,11 +8,11 @@ import { redirect } from "next/navigation";
 import React from "react";
 
 export default async function Chatpage({
-  params,
+  params: { chatId },
 }: {
   params: { chatId: string };
 }) {
-  const chatId = parseInt(params.chatId);
+  const parsedChatId = parseInt(chatId);
   const { userId } = await auth();
   if (!userId) {
     return redirect("/sign-in");
@@ -22,11 +22,11 @@ export default async function Chatpage({
   if (!_chats) {
     return redirect("/");
   }
-  if (!_chats.find((chat) => chat.id === chatId)) {
+  if (!_chats.find((chat) => chat.id === parsedChatId)) {
     return redirect("/");
   }
 
-  const currentChat = _chats.find((chat) => chat.id === chatId);
+  const currentChat = _chats.find((chat) => chat.id === parsedChatId);
 
   return (
     <div className="flex w-full max-h-screen ">
@@ -36,7 +36,7 @@ export default async function Chatpage({
       </div>
       {/*chatting with pdf */}
       <div className="flex-1 p-4">
-        <ChatComponent chatId={chatId} />
+        <ChatComponent chatId={parsedChatId} />
       </div>
     </div>
   );
