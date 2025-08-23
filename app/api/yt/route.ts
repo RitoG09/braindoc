@@ -1,6 +1,36 @@
 import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 
+// Define YouTube API response item type
+interface YouTubeVideoItem {
+    id: {
+        kind: string;
+        videoId: string;
+    };
+    snippet: {
+        title: string;
+        description: string;
+        channelTitle: string;
+        publishedAt: string;
+        thumbnails?: {
+            default?: { url: string };
+            medium?: { url: string };
+            high?: { url: string };
+        };
+    };
+}
+
+// Define processed video type
+interface ProcessedVideo {
+    videoId: string;
+    title: string;
+    description: string;
+    thumbnail: string;
+    channelTitle: string;
+    publishedAt: string;
+}
+
+
 export async function GET(request: NextRequest) {
     try {
         const { searchParams } = new URL(request.url);
@@ -34,8 +64,8 @@ export async function GET(request: NextRequest) {
         }
 
        //from docs (yt data v3)
-        const videos = data.items
-            .filter((item:any) => {
+        const videos:ProcessedVideo[] = data.items
+            .filter((item:YouTubeVideoItem) => {
                 //only process video results with required fields
                 const isValid = item &&
                     item.id &&
@@ -50,7 +80,7 @@ export async function GET(request: NextRequest) {
 
                 return isValid;
             })
-            .map((item) => {
+            .map((item:YouTubeVideoItem) => {
                 try {
                     return {
                         videoId: item.id.videoId,
@@ -73,7 +103,7 @@ export async function GET(request: NextRequest) {
                     return null;
                 }
             })
-            .filter(video => video !== null); //Remove any null entries
+            .filter((video:ProcessedVideo): video is ProcessedVideo => video !== null); //Remove any null entries
 
         console.log("Processed videos:", videos.length);
 
@@ -87,28 +117,12 @@ export async function GET(request: NextRequest) {
 
         return NextResponse.json({ videos });
 
-    } catch (error: any) {
-        console.error("YouTube search error details:", {
-            message: error.message,
-            response: error.response?.data,
-            status: error.response?.status,
-            statusText: error.response?.statusText
-        });
-        if (error.response?.status === 403) {
-            return NextResponse.json(
-                { error: "YouTube API quota exceeded or invalid API key" },
-                { status: 403 }
-            );
-        } else if (error.response?.status === 400) {
-            return NextResponse.json(
-                { error: "Invalid request to YouTube API" },
-                { status: 400 }
-            );
-        } else {
-            return NextResponse.json(
-                { error: "Failed to search YouTube", details: error.message },
-                { status: 500 }
-            );
-        }
+    } catch (error: unknown) {
+        console.error(error);
+        return NextResponse.json(
+            { error: "Failed to search YouTube", details: (error as Error).message },
+            { status: 500 }
+        );
     }
+
 }

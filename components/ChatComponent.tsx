@@ -83,21 +83,10 @@ const ChatComponent = ({ chatId }: Props) => {
         setVideoError("Failed to fetch videos");
         return [];
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error searching YouTube:", error);
       setVideos([]);
-
-      // Handle specific error messages
-      if (error.response?.status === 403) {
-        setVideoError("YouTube API quota exceeded. Please try again later.");
-      } else if (error.response?.status === 400) {
-        setVideoError("Invalid search query. Please try a different search.");
-      } else if (error.response?.data?.error) {
-        setVideoError(error.response.data.error);
-      } else {
-        setVideoError("Failed to search YouTube. Please check your internet connection.");
-      }
-
+      setVideoError("Failed to search YouTube. Please check your internet connection.");
       return [];
     } finally {
       setIsLoadingVideo(false);
@@ -159,7 +148,7 @@ const ChatComponent = ({ chatId }: Props) => {
                     <div className="space-y-4">
                       <h3 className="text-lg font-medium text-gray-800 mb-4">Video Results:</h3>
                       <div className="grid gap-4">
-                        {videos.map((video, index) => (
+                        {videos.map((video) => (
                             <div
                                 key={video.videoId}
                                 onClick={() => window.open(`https://www.youtube.com/watch?v=${video.videoId}`, '_blank')}
