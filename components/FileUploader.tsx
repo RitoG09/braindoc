@@ -31,7 +31,7 @@ function FileUploader() {
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
-    //bigger than 10mb s3 me upload nhi krna
+    //bigger than 10mb s3 upload - not allowed
     if (file.size > 10 * 1024 * 1024) {
       toast.error("File is too large");
       return;
