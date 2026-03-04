@@ -81,8 +81,8 @@ async function embedDocument(doc: Document) {
         pageNumber: doc.metadata.pageNumber,
       },
     } as PineconeRecord; // Replace 'any' with the correct type if known
-  } catch (error) {
-    console.log("error embedding document", error);
+  } catch (error: any) {
+    console.log("error embedding document:", error?.message || error);
     throw error;
   }
 }
@@ -137,7 +137,7 @@ async function prepareDocument(page: PDFPage) {
     }),
   ]);
   console.log(
-    `Page ${metadata.loc.pageNumber} split into ${allSplits.length} chunks`
+    `Page ${metadata.loc.pageNumber} split into ${allSplits.length} chunks`,
   );
   return allSplits;
 }

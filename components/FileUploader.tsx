@@ -51,7 +51,9 @@ function FileUploader() {
           router.push(`/chat/${chat_id}`);
         },
         onError: (error) => {
-          toast.error("Something went wrong.");
+          toast.error(
+            "Chatgpt API token has reached the limit 😭. NEED MONEY 💵",
+          );
           console.error(error);
         },
       });
